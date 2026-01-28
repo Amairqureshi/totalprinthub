@@ -93,7 +93,7 @@ export default function AdminBlogPage() {
                                     <tr key={i} className="animate-pulse">
                                         <td className="px-6 py-4"><div className="h-10 w-16 bg-slate-100 rounded"></div></td>
                                         <td className="px-6 py-4"><div className="h-4 w-48 bg-slate-100 rounded mb-1"></div><div className="h-3 w-32 bg-slate-50 rounded"></div></td>
-                                        <td colspan={4} className="px-6 py-4"></td>
+                                        <td colSpan={4} className="px-6 py-4"></td>
                                     </tr>
                                 ))
                             ) : filteredPosts.length === 0 ? (

@@ -17,6 +17,7 @@ export default function CheckoutPage() {
     const router = useRouter();
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [pendingOrderId, setPendingOrderId] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

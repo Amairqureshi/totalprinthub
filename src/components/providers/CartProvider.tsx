@@ -15,7 +15,13 @@ export interface CartItem {
         quantity: number;
         paperType: string;
         size: string;
-        finish: string;
+        finish?: string;
+        format?: string;
+        printingTime?: "standard" | "express";
+        jobName?: string;
+        jobInstructions?: string;
+        customWidth?: number;
+        customHeight?: number;
         lamination?: string;
         designFile?: string | undefined; // We'll store a reference or base64 preview for now
         maskFile?: string | undefined;

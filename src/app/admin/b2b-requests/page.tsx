@@ -5,7 +5,7 @@ import { Mail, Phone, Calendar, Search } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function AdminB2BRequestsPage() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: requests } = await supabase
         .from("b2b_requests")
         .select("*")

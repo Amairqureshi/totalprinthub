@@ -107,8 +107,8 @@ const configuratorSchema = z.object({
     quantity: z.number().min(1, "Minimum quantity is 1"),
     paperType: z.string(),
     size: z.string(),
-    format: z.string().default("sheets"),
-    printingTime: z.enum(["standard", "express"]).default("standard"),
+    format: z.string(),
+    printingTime: z.enum(["standard", "express"]),
     customWidth: z.number().optional(),
     customHeight: z.number().optional(),
 }).refine((data) => {
