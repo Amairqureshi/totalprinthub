@@ -1,7 +1,7 @@
 import { createBrowserClient } from "@supabase/ssr"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://fwkribibpjwkeyeomecd.supabase.co";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ3a3JpYmlicGp3a2V5ZW9tZWNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg5NjYwODcsImV4cCI6MjA4NDU0MjA4N30.uOXQBlSsmK6VrQud-V6NXImPOn4J6xgX9LOXLaDyjCE";
 
 // Check if credentials are configured
 const isSupabaseConfigured = supabaseUrl && supabaseAnonKey;
