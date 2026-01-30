@@ -7,10 +7,10 @@ import { CheckoutPayload } from "@/lib/types/database";
 // Note: For client-side triggered inserts where policies allow "Anyone", standard client works, 
 // but inside an API route it's safer to use the service role key if available, or just standard anon key with proper policies.
 // We will use the standard setup variables.
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://fwkribibpjwkeyeomecd.supabase.co";
 // Use Service Role Key to bypass RLS (since this is a server-side admin operation)
 // Fallback to Anon key (which might fail RLS) if Service Role is missing
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2ODk2NjA4NywiZXhwIjoyMDg0NTQyMDg3fQ.z3L68gZOi8aaQtRN9VBfHxy_oJcI2Za5cA9INNxYXBk";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Initialize Resend
