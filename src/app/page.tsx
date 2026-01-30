@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Truck, Headphones, Tag, Star, Package } from "lucide-react";
 import { PRODUCT_CATEGORIES } from "@/config/navigation";
-import { ProductSlider } from "@/components/products/ProductSlider";
 
 export default function Home() {
   return (
