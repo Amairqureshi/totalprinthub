@@ -13,7 +13,7 @@ interface ProductCardProps {
         slug: { current: string };
         category: { title: string; slug: { current: string } };
         mainImage: any;
-        basePrice: number;
+        basePrice?: number; // Made optional
         description: string;
     };
     viewMode?: "grid" | "list";
@@ -69,7 +69,11 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
                         <div>
                             <p className="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Starting at</p>
                             <p className="text-lg md:text-xl font-black text-gray-900">
-                                ₹ {product.basePrice.toLocaleString("en-IN")}
+                                {product.basePrice ? (
+                                    `₹ ${product.basePrice.toLocaleString("en-IN")}`
+                                ) : (
+                                    <span className="text-sm text-gray-400">Price not set</span>
+                                )}
                             </p>
                         </div>
 
@@ -144,7 +148,11 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
                     <div>
                         <p className="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Starting at</p>
                         <p className="text-xl font-black text-gray-900">
-                            ₹ {product.basePrice.toLocaleString("en-IN")}
+                            {product.basePrice ? (
+                                `₹ ${product.basePrice.toLocaleString("en-IN")}`
+                            ) : (
+                                <span className="text-sm text-gray-400">Price not set</span>
+                            )}
                         </p>
                     </div>
 
