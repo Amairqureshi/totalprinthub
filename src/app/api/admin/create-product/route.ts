@@ -11,7 +11,7 @@ function generateSlug(text: string) {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { config, selectedMaterial, selectedFinish, variants } = body;
+        const { config, selectedMaterial, selectedFinish, variants, shortDescription, longDescription, seo, featuredImageAssetId } = body;
 
         if (!process.env.SANITY_API_TOKEN) {
             return NextResponse.json({ error: 'Missing SANITY_API_TOKEN' }, { status: 500 });
@@ -21,7 +21,6 @@ export async function POST(req: Request) {
         const slug = generateSlug(docName + '-' + Date.now().toString().slice(-4));
 
         // Map UI variants to Sanity Schema
-        // Schema: variants: [{ name, width, height, pricingTiers: [{minQty, maxQty, pricePerUnit}] }]
         const sanityVariants = variants.map((v: any) => ({
             _key: v.id,
             name: v.name,
@@ -35,22 +34,55 @@ export async function POST(req: Request) {
             }))
         }));
 
-        const doc = {
+        // Convert plain text long description to Sanity Block Content
+        const descriptionBlocks = longDescription ? [
+            {
+                _type: 'block',
+                _key: Math.random().toString(36).substring(7),
+                children: [
+                    { _type: 'span', text: longDescription }
+                ]
+            }
+        ] : [];
+
+        const doc: any = {
             _type: 'product',
             title: docName,
             slug: { _type: 'slug', current: slug },
-            shortDescription: `Configuration: ${selectedMaterial.name}, ${selectedFinish.name}. Available in ${variants.length} sizes.`,
+
+            // Priority: User Input -> Auto Generated Details
+            shortDescription: shortDescription || `Configuration: ${selectedMaterial.name}, ${selectedFinish.name}. Available in ${variants.length} sizes.`,
+            longDescription: descriptionBlocks,
+
+            // Map keys
             variants: sanityVariants,
-            // Fallback for legacy fields if something still reads them (optional)
+            availableMaterials: selectedMaterial.id ? [selectedMaterial.id] : [],
+            availableShapes: ['die-cut', 'circle', 'square', 'custom'],
+            availableCutTypes: ['individual', 'sheets'],
+
+            // Media
+            featuredImage: featuredImageAssetId ? {
+                _type: 'image',
+                asset: {
+                    _type: 'reference',
+                    _ref: featuredImageAssetId
+                }
+            } : undefined,
+
+            // SEO
+            metaTitle: seo?.title || docName,
+            metaDescription: seo?.description || shortDescription,
+            keywords: seo?.keywords || [],
+
+            // Fallback
             basePrice: 0,
             pricingTiers: [],
         };
 
-        // Try to find a category (optional but recommended)
+        // Category Link
         const categoryQuery = `*[_type == "category"][0]._id`;
         const categoryId = await clientWithToken.fetch(categoryQuery);
         if (categoryId) {
-            // @ts-ignore
             doc.category = { _type: 'reference', _ref: categoryId };
         }
 
