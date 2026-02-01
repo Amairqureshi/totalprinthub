@@ -2,15 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ShoppingCart, Package, Users, Settings, LogOut, Printer, FileText, Briefcase, BookOpen } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Users, Settings, LogOut, Printer, FileText, Briefcase, BookOpen, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navigation = [
     { name: "Overview", href: "/admin", icon: LayoutDashboard },
+    { name: "Create Product", href: "/admin/pricing-builder", icon: Plus },
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-    { name: "Custom Quotes", href: "/admin/quotes", icon: FileText },
-    { name: "B2B Leads", href: "/admin/b2b-requests", icon: Briefcase },
-    { name: "Blog Articles", href: "/admin/blog", icon: BookOpen },
     { name: "Products", href: "/admin/products", icon: Package },
     { name: "Customers", href: "/admin/customers", icon: Users },
     { name: "Settings", href: "/admin/settings", icon: Settings },

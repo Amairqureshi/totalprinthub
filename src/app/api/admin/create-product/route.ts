@@ -11,14 +11,28 @@ function generateSlug(text: string) {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { config, selectedMaterial, selectedFinish, variants, shortDescription, longDescription, seo, featuredImageAssetId } = body;
+        // New Payload Structure from ProductEditor.tsx
+        const {
+            title,
+            slug,
+            category,
+            shortDescription,
+            longDescription,
+            availableMaterials,
+            availableShapes,
+            availableCutTypes,
+            variants,
+            featuredImageAssetId,
+            galleryAssetIds, // New
+            seo,
+            basePrice
+        } = body;
 
         if (!process.env.SANITY_API_TOKEN) {
             return NextResponse.json({ error: 'Missing SANITY_API_TOKEN' }, { status: 500 });
         }
 
-        const docName = `${config.name} - ${selectedMaterial.name}`;
-        const slug = generateSlug(docName + '-' + Date.now().toString().slice(-4));
+        const generatedSlug = slug || generateSlug(title + '-' + Date.now().toString().slice(-4));
 
         // Map UI variants to Sanity Schema
         const sanityVariants = variants.map((v: any) => ({
@@ -45,20 +59,32 @@ export async function POST(req: Request) {
             }
         ] : [];
 
+        // Gallery Images
+        const productImages = galleryAssetIds?.map((id: string) => ({
+            _type: 'image',
+            _key: id,
+            asset: {
+                _type: 'reference',
+                _ref: id
+            }
+        })) || [];
+
         const doc: any = {
             _type: 'product',
-            title: docName,
-            slug: { _type: 'slug', current: slug },
+            title: title,
+            slug: { _type: 'slug', current: generatedSlug },
 
-            // Priority: User Input -> Auto Generated Details
-            shortDescription: shortDescription || `Configuration: ${selectedMaterial.name}, ${selectedFinish.name}. Available in ${variants.length} sizes.`,
+            shortDescription: shortDescription || `Custom printed ${title}`,
             longDescription: descriptionBlocks,
 
-            // Map keys
+            // Config
+            availableMaterials: availableMaterials || [],
+            availableShapes: availableShapes || [],
+            availableCutTypes: availableCutTypes || [],
+
+            // Pricing
+            basePrice: basePrice || 99,
             variants: sanityVariants,
-            availableMaterials: selectedMaterial.id ? [selectedMaterial.id] : [],
-            availableShapes: ['die-cut', 'circle', 'square', 'custom'],
-            availableCutTypes: ['individual', 'sheets'],
 
             // Media
             featuredImage: featuredImageAssetId ? {
@@ -68,20 +94,27 @@ export async function POST(req: Request) {
                     _ref: featuredImageAssetId
                 }
             } : undefined,
+            productImages: productImages, // Gallery
 
             // SEO
-            metaTitle: seo?.title || docName,
+            metaTitle: seo?.title || title,
             metaDescription: seo?.description || shortDescription,
             keywords: seo?.keywords || [],
 
-            // Fallback
-            basePrice: 0,
-            pricingTiers: [],
+            hasBackSide: false, // Default
+            publishedAt: new Date().toISOString()
         };
 
         // Category Link
-        const categoryQuery = `*[_type == "category"][0]._id`;
-        const categoryId = await clientWithToken.fetch(categoryQuery);
+        // Try to find category by name, else default to first one
+        const categoryQuery = `*[_type == "category" && title match "${category}"][0]._id`;
+        let categoryId = await clientWithToken.fetch(categoryQuery);
+
+        if (!categoryId) {
+            const defaultCat = await clientWithToken.fetch(`*[_type == "category"][0]._id`);
+            categoryId = defaultCat;
+        }
+
         if (categoryId) {
             doc.category = { _type: 'reference', _ref: categoryId };
         }
