@@ -14,8 +14,8 @@ interface BreadcrumbsProps {
 
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
     return (
-        <nav className="flex mb-6 overflow-x-auto whitespace-nowrap pb-2 md:pb-0" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2 text-sm text-gray-500">
+        <nav className="flex mb-3 overflow-x-auto whitespace-nowrap pb-1 md:pb-0" aria-label="Breadcrumb">
+            <ol className="flex items-center space-x-2 text-xs text-gray-500">
                 <li>
                     <Link
                         href="/"

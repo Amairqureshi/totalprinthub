@@ -282,6 +282,7 @@ export default function ProductConfigurator({
             } else if (file.type === "application/pdf") {
                 updateJob(jobId, 'preview', null);
             }
+            toast.success("File selected for upload");
         }
     };
 
@@ -364,9 +365,9 @@ export default function ProductConfigurator({
             setStep(1);
             setJobs([{ id: `job-${Date.now()}`, name: '', file: null, preview: null, fileName: null, instructions: '', activeTags: [], externalLink: '', isOpen: true }]);
 
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            toast.error("Failed to process jobs");
+            toast.error(error.message || "Failed to process jobs");
         } finally {
             setIsSubmitting(false);
         }
@@ -573,7 +574,16 @@ export default function ProductConfigurator({
                             <div className="flex items-center gap-2 text-xs text-slate-500 bg-white/50 p-2 rounded-lg border border-gray-100 w-fit mb-2 mx-auto md:mx-0">
                                 <Info className="h-4 w-4 text-blue-500" />
                                 <span>Artwork Guidelines: Acceptable formats: PDF, AI, JPG, PNG. Max 150MB per file.</span>
-                                <span className="text-blue-500 font-bold cursor-pointer hover:underline">View full guidelines</span>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <span className="text-blue-500 font-bold cursor-pointer hover:underline">View full guidelines</span>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="max-w-xs">Ensure fonts are outlined, images are embedded, and 3mm bleed works are included.</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             </div>
 
                             {/* Job Cards GRID */}

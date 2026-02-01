@@ -319,24 +319,24 @@ export default function CustomQuotePage() {
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <Label className="text-xs font-bold text-slate-500 uppercase">Quote Title <span className="text-red-500">*</span></Label>
-                                <Input placeholder="e.g. Marketing Campaign Stickers" className="bg-white" {...register("quoteTitle")} />
+                                <Input className="bg-white" {...register("quoteTitle")} />
                                 {errors.quoteTitle && <p className="text-red-500 text-xs">{errors.quoteTitle.message}</p>}
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label className="text-xs font-bold text-slate-500 uppercase">First Name <span className="text-red-500">*</span></Label>
-                                    <Input placeholder="Amair" className="bg-white" {...register("firstName")} />
+                                    <Input className="bg-white" {...register("firstName")} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-xs font-bold text-slate-500 uppercase">Last Name <span className="text-red-500">*</span></Label>
-                                    <Input placeholder="Qureshi" className="bg-white" {...register("lastName")} />
+                                    <Input className="bg-white" {...register("lastName")} />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
                                 <Label className="text-xs font-bold text-slate-500 uppercase">Email Address <span className="text-red-500">*</span></Label>
-                                <Input placeholder="amairdesigner@gmail.com" className="bg-white" {...register("email")} />
+                                <Input className="bg-white" {...register("email")} />
                                 {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
                             </div>
 
@@ -345,7 +345,7 @@ export default function CustomQuotePage() {
                                 <div className="flex items-center border border-slate-200 rounded-md bg-white px-3">
                                     <span className="mr-2 text-lg">🇮🇳</span>
                                     <Input
-                                        placeholder="+91 093980 12432"
+                                        placeholder=""
                                         className="border-none shadow-none focus-visible:ring-0 px-0"
                                         {...register("whatsapp")}
                                     />
@@ -367,16 +367,7 @@ export default function CustomQuotePage() {
                             </p>
                         </div>
 
-                        {/* Help Box */}
-                        <div className="mt-8 bg-slate-100 rounded-xl p-6">
-                            <h3 className="font-bold text-slate-800 text-sm mb-2">Need Help?</h3>
-                            <p className="text-xs text-slate-500 mb-4 leading-relaxed">
-                                If you have a complex project or special requirements not listed here, feel free to chat with our consultants.
-                            </p>
-                            <button type="button" className="text-xs font-bold text-green-700 flex items-center hover:underline">
-                                <span className="mr-2">💬</span> Live Chat Support
-                            </button>
-                        </div>
+                        {/* Help Box Removed */}
                     </div>
                 </form>
             </div>

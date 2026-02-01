@@ -99,7 +99,7 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
             {/* Image Container */}
             <Link
                 href={`/products/${product.category.slug.current}/${product.slug.current}`}
-                className="relative aspect-square overflow-hidden bg-gray-50 flex-shrink-0"
+                className="relative aspect-[4/3] overflow-hidden bg-gray-50 flex-shrink-0"
             >
                 {product.mainImage ? (
                     <Image
@@ -123,11 +123,11 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
             </Link>
 
             {/* Content */}
-            <div className="p-5 flex flex-col flex-grow">
+            <div className="p-4 flex flex-col flex-grow">
                 <div className="mb-auto">
                     <Link
                         href={`/products/${product.category.slug.current}`}
-                        className="text-[11px] font-bold text-blue-500 uppercase tracking-widest mb-1.5 block hover:text-blue-600 transition-colors"
+                        className="text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-1 block hover:text-blue-600 transition-colors"
                     >
                         {product.category.title}
                     </Link>
