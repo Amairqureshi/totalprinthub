@@ -21,13 +21,12 @@ export function AdminSidebar() {
         <div className="flex h-full w-64 flex-col bg-[#0f172a] text-white border-r border-[#1e293b]">
             <div className="flex h-20 items-center px-6 border-b border-[#1e293b] bg-[#0f172a]">
                 <div className="flex items-center gap-3">
-                    <div className="bg-blue-600 p-2 rounded-lg">
-                        <Printer className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                        <span className="block text-lg font-bold tracking-tight text-white leading-none">PrintHub</span>
-                        <span className="block text-xs text-slate-400 font-medium mt-0.5 uppercase tracking-wider">Admin</span>
-                    </div>
+                    <img
+                        src="/logo.png"
+                        alt="TotalPrintHub Admin"
+                        className="h-8 w-auto object-contain brightness-0 invert"
+                    />
+                    <span className="bg-blue-600 text-[10px] font-bold px-1.5 py-0.5 rounded text-white ml-2 uppercase tracking-wider">Admin</span>
                 </div>
             </div>
 

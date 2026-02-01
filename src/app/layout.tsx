@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "TotalPrintHub - Custom Printing Solutions for India",
   description: "Professional custom printing services with dynamic pricing, instant quotes, and fast delivery across India.",
   keywords: ["custom printing", "business cards", "stickers", "banners", "India printing"],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

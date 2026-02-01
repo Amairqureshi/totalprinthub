@@ -58,9 +58,11 @@ export function Header() {
 
                             {/* Logo */}
                             <Link href="/" className="flex flex-col">
-                                <span className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight leading-none">
-                                    TotalPrintHub
-                                </span>
+                                <img
+                                    src="/logo.png"
+                                    alt="TotalPrintHub"
+                                    className="h-10 md:h-12 w-auto object-contain"
+                                />
                             </Link>
 
                             {/* Desktop Products Dropdown - Moved Left */}
