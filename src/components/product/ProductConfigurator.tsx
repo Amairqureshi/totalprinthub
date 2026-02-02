@@ -540,7 +540,7 @@ export default function ProductConfigurator({
                                         <p className={cn("text-[10px] leading-tight text-center font-bold px-0.5", paperType === mat.id ? "text-green-700" : "text-slate-600")}>
                                             {mat.name.split(' ').slice(0, 2).join(' ')}
                                         </p>
-                                        <p className="text-[9px] text-gray-400 text-center leading-none mt-0.5">{matCategory === "standard" ? "Standard" : "Premium"}</p>
+                                        <p className="text-[9px] text-gray-400 text-center leading-none mt-0.5">{materialCategory === "standard" ? "Standard" : "Premium"}</p>
                                     </div>
                                 ))}
                             </div>
