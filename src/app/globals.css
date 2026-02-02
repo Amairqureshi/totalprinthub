@@ -52,9 +52,23 @@ body {
 }
 
 /* Smooth scrolling */
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
+
+/* Custom Scrollbar Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 
 /* Focus visible styles for accessibility */
 *:focus-visible {

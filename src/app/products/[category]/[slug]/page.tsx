@@ -52,7 +52,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ].filter(Boolean);
 
     return (
-        <div className="h-[calc(100vh-64px)] bg-gray-50/50 overflow-hidden flex flex-col">
+        <div className="min-h-screen lg:h-[calc(100vh-64px)] bg-gray-50/50 lg:overflow-hidden flex flex-col">
             {/* Breadcrumbs - Compact */}
             <div className="bg-white border-b border-gray-200 shrink-0">
                 <div className="container mx-auto px-4 py-2">
