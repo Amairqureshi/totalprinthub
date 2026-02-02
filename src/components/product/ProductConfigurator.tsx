@@ -374,19 +374,18 @@ export default function ProductConfigurator({
     };
 
     return (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-xl shadow-slate-200/50 overflow-hidden min-h-[600px] flex flex-col">
+        <div className="bg-white rounded-xl border border-gray-100 shadow-lg shadow-slate-200/50 overflow-hidden flex flex-col h-full max-h-full">
 
             {/* ------------------------------------
-               STEP 1: CONFIG VIEW (Premium Grid Layout)
+               STEP 1: CONFIG VIEW (Compact Grid Layout)
                ------------------------------------ */}
             {step === 1 && (
-                <div className="p-6 md:p-8 animate-in fade-in slide-in-from-left-4">
-                    <div className="mb-6 flex items-center justify-between">
-                        <h2 className="text-xl font-bold text-slate-900">Configure Order</h2>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full"><LinkIcon className="h-4 w-4 text-gray-400" /></Button>
+                <div className="p-5 animate-in fade-in slide-in-from-left-4 flex flex-col h-full">
+                    <div className="mb-4 flex items-center justify-between shrink-0">
+                        <h2 className="text-lg font-bold text-slate-900">Configure Order</h2>
                     </div>
 
-                    <div className="space-y-8">
+                    <div className="space-y-4 overflow-y-auto pr-1 flex-1 custom-scrollbar">
 
                         {/* Shape & Size Row */}
                         <div className="grid grid-cols-2 gap-4">
@@ -513,21 +512,20 @@ export default function ProductConfigurator({
                     </div>
 
                     {/* Bottom Price Bar */}
-                    <div className="mt-8 pt-6 border-t border-gray-100">
-                        <div className="flex items-end justify-between mb-4">
+                    <div className="mt-4 pt-4 border-t border-gray-100 shrink-0">
+                        <div className="flex items-end justify-between mb-3">
                             <div>
                                 <div className="flex items-baseline gap-2">
-                                    <span className="text-3xl font-extrabold text-slate-900 tracking-tight">{isCalculating ? "..." : formatPrice(finalPrice)}</span>
+                                    <span className="text-2xl font-extrabold text-slate-900 tracking-tight">{isCalculating ? "..." : formatPrice(finalPrice)}</span>
                                     <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">Save 20%</span>
                                 </div>
-                                <p className="text-xs text-gray-400 mt-1">Total Price (GST Inclusive) • <span className="font-medium text-gray-600">{formatPrice(unitPrice)} / each</span></p>
+                                <p className="text-[10px] text-gray-400 mt-1">GST Incl. • <span className="font-medium text-gray-600">{formatPrice(unitPrice)} / each</span></p>
                             </div>
                         </div>
 
-                        <Button onClick={nextStep} className="w-full bg-blue-500 hover:bg-blue-600 text-white h-14 rounded-xl text-lg font-bold shadow-blue-200 shadow-lg transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
-                            <Upload className="h-5 w-5" /> Upload Artwork & Order
+                        <Button onClick={nextStep} className="w-full bg-blue-500 hover:bg-blue-600 text-white h-12 rounded-lg text-base font-bold shadow-blue-200 shadow-md transition-all flex items-center justify-center gap-2">
+                            <Upload className="h-4 w-4" /> Upload Artwork
                         </Button>
-                        <p className="text-center text-[10px] text-gray-400 mt-3">Free verification included with every order</p>
                     </div>
                 </div>
             )}

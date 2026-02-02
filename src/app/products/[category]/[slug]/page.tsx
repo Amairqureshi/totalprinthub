@@ -52,34 +52,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ].filter(Boolean);
 
     return (
-        <div className="min-h-screen bg-gray-50/50">
-
-            {/* Breadcrumbs */}
-            <div className="bg-white border-b border-gray-200">
-                <div className="container mx-auto px-4 py-3">
-                    <nav className="flex items-center gap-2 text-sm text-gray-500">
+    return (
+        <div className="h-[calc(100vh-64px)] bg-gray-50/50 overflow-hidden flex flex-col">
+            {/* Breadcrumbs - Compact */}
+            <div className="bg-white border-b border-gray-200 shrink-0">
+                <div className="container mx-auto px-4 py-2">
+                    <nav className="flex items-center gap-2 text-xs text-gray-500">
                         <a href="/" className="hover:text-blue-600 transition-colors">Home</a>
                         <span>/</span>
                         <a href="/products" className="hover:text-blue-600 transition-colors">Stickers</a>
                         <span>/</span>
-                        <span className="text-gray-900 font-medium">{product.title}</span>
+                        <span className="text-gray-900 font-medium truncate max-w-[200px]">{product.title}</span>
                     </nav>
                 </div>
             </div>
 
-            {/* Main Content */}
-            <main className="container mx-auto px-4 py-8 md:py-12">
-
-                {/* Product Header (Mobile/Desktop Unified for SEO) */}
-                <div className="mb-8 max-w-4xl">
-                    <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">{product.title}</h1>
-                    <div className="flex items-center gap-4 text-sm">
-                        <div className="flex text-amber-500">
-                            {[1, 2, 3, 4, 5].map(i => <span key={i} className="text-lg">★</span>)}
-                        </div>
-                        <span className="text-gray-600 font-medium">4.9/5 based on 1,200+ reviews</span>
-                    </div>
-                </div>
+            {/* Main Content - Full Height Grid */}
+            <main className="container mx-auto px-4 py-4 h-full">
 
                 {/* Schema JSON-LD */}
                 {product.schemaJSON && (
@@ -89,23 +78,45 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     />
                 )}
 
-                <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-start">
+                <div className="lg:grid lg:grid-cols-12 lg:gap-6 h-full items-start">
 
-                    {/* Left Column: Gallery (Col 1) */}
-                    <div className="space-y-6 top-24 lg:sticky">
+                    {/* Left Column: Gallery & Info (Scrollable) */}
+                    <div className="lg:col-span-5 h-full overflow-y-auto pr-2 custom-scrollbar space-y-6">
+                        {/* Title Section (Moved inside left col for better 2-col flow) */}
+                        <div className="mb-4">
+                            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">{product.title}</h1>
+                            <div className="flex items-center gap-2 text-xs">
+                                <div className="flex text-amber-500">
+                                    {[1, 2, 3, 4, 5].map(i => <span key={i} className="text-sm">★</span>)}
+                                </div>
+                                <span className="text-gray-600 font-medium">4.9 (1.2k reviews)</span>
+                            </div>
+                        </div>
+
                         <ProductGallery images={galleryImages} title={product.title} />
 
-                        {/* Dynamic Description - Only show if exists */}
+                        {/* Description */}
                         {product.shortDescription && (
-                            <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-                                <h2 className="text-lg font-bold text-slate-900 mb-3">Description</h2>
-                                <p className="text-sm text-gray-600 leading-relaxed">{product.shortDescription}</p>
+                            <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                                <h2 className="text-sm font-bold text-slate-900 mb-2">Description</h2>
+                                <p className="text-xs text-gray-600 leading-relaxed">{product.shortDescription}</p>
                             </div>
                         )}
+
+                        {/* Order Assurance */}
+                        <div className="bg-blue-50/50 rounded-xl p-3 flex items-center gap-3 border border-blue-100">
+                            <div className="bg-blue-100 p-2 rounded-full text-blue-600">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <p className="text-xs font-bold text-slate-900">Satisfaction Guarantee</p>
+                                <p className="text-[10px] text-slate-500">Free reprints if faulty.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Right Column: Configurator (Col 2) */}
-                    <div className="space-y-6">
+                    {/* Right Column: Configurator (Fixed/Scrollable internal) */}
+                    <div className="lg:col-span-7 h-full overflow-y-auto pl-2 custom-scrollbar">
                         <ProductConfigurator
                             productId={product._id}
                             productName={product.title}
@@ -114,17 +125,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                             pricingTiers={product.pricingTiers}
                             hasBackSide={false}
                         />
-
-                        {/* Order Assurance - Replaces bulky guarantee section */}
-                        <div className="bg-blue-50/50 rounded-xl p-4 flex items-center gap-3 border border-blue-100">
-                            <div className="bg-blue-100 p-2 rounded-full text-blue-600">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                            <div>
-                                <p className="text-sm font-bold text-slate-900">100% Satisfaction Guarantee</p>
-                                <p className="text-xs text-slate-500">Free reprints if you're not happy.</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </main>
