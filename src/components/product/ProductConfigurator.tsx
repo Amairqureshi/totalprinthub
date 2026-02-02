@@ -373,176 +373,231 @@ export default function ProductConfigurator({
         }
     };
 
+    // State for Material Category Tabs
+    const [materialCategory, setMaterialCategory] = useState<"standard" | "premium">("standard");
+
     return (
-        <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] border border-white/20 shadow-xl shadow-slate-200/40 overflow-hidden flex flex-col h-full max-h-full transition-all duration-300">
+        <div className="bg-white rounded-none md:rounded-lg border border-gray-200 overflow-hidden flex flex-col font-sans">
 
             {/* ------------------------------------
-               STEP 1: CONFIG VIEW (Modern & Clean)
+               STEP 1: REFERENCE STYLE UI
                ------------------------------------ */}
             {step === 1 && (
-                <div className="p-6 md:p-8 animate-in fade-in slide-in-from-right-4 flex flex-col h-full">
-                    <div className="mb-6 flex items-center justify-between shrink-0">
-                        <div>
-                            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Configure Your Order</h2>
-                            <p className="text-xs text-gray-500 font-medium mt-1">Customize your perfect stickers</p>
-                        </div>
+                <div className="flex flex-col h-full">
+
+                    {/* Header */}
+                    <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white pt-5">
+                        <h2 className="text-lg font-bold text-slate-800">Get Started</h2>
+                        <Button variant="ghost" size="sm" className="text-green-700 font-bold hover:bg-green-50 h-8 gap-1.5 text-xs uppercase tracking-wide">
+                            <ArrowRight className="h-3.5 w-3.5 -rotate-45" /> Share
+                        </Button>
                     </div>
 
-                    <div className="space-y-6 overflow-y-auto pr-2 flex-1 custom-scrollbar -mr-2 pl-1 pb-4">
+                    <div className="p-6 space-y-5">
 
-                        {/* Shape & Size Row */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-1.5">
-                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider pl-1">Shape</Label>
-                                <Select defaultValue="custom">
-                                    <SelectTrigger className="h-12 bg-gray-50/50 hover:bg-gray-50 border-transparent hover:border-gray-200 focus:ring-2 focus:ring-blue-500/20 rounded-xl font-semibold text-sm transition-all shadow-sm">
-                                        <SelectValue placeholder="Shape" />
-                                    </SelectTrigger>
-                                    <SelectContent className="rounded-xl border-gray-100 shadow-xl">
-                                        <SelectItem value="die-cut" className="rounded-lg font-medium">Die Cut</SelectItem>
-                                        <SelectItem value="circle" className="rounded-lg font-medium">Circle</SelectItem>
-                                        <SelectItem value="square" className="rounded-lg font-medium">Square</SelectItem>
-                                        <SelectItem value="custom" className="rounded-lg font-medium">Custom Shape</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider pl-1">Size</Label>
-                                <Popover open={openSizeCombo} onOpenChange={setOpenSizeCombo}>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            role="combobox"
-                                            aria-expanded={openSizeCombo}
-                                            className="w-full justify-between h-12 bg-gray-50/50 hover:bg-gray-50 border-transparent hover:border-gray-200 focus:ring-2 focus:ring-blue-500/20 rounded-xl font-semibold text-sm shadow-sm"
-                                        >
-                                            {size ? SIZES.find((s) => s.value === size)?.label || "Custom Size" : "Select Size..."}
-                                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-[280px] p-0 rounded-xl shadow-xl border-gray-100">
-                                        <Command>
-                                            <CommandInput placeholder="Search size..." className="h-11" />
-                                            <CommandList>
-                                                <CommandEmpty>No size found.</CommandEmpty>
-                                                <CommandGroup>
-                                                    {SIZES.map((s) => (
-                                                        <CommandItem
-                                                            key={s.value}
-                                                            value={s.value}
-                                                            onSelect={(currentValue) => {
-                                                                setValue("size", s.value === currentValue ? "" : s.value);
-                                                                setOpenSizeCombo(false);
-                                                            }}
-                                                            className="rounded-lg m-1"
-                                                        >
-                                                            <Check className={cn("mr-2 h-4 w-4 text-blue-500", size === s.value ? "opacity-100" : "opacity-0")} />
-                                                            {s.label}
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
+                        {/* Row 1: Shape */}
+                        <div className="grid grid-cols-[100px_1fr] items-center gap-4">
+                            <Label className="text-xs font-medium text-slate-500">Select Shape</Label>
+                            <Select defaultValue="custom">
+                                <SelectTrigger className="h-10 bg-white border-gray-200 rounded-md text-xs font-medium focus:ring-1 focus:ring-green-600 focus:border-green-600">
+                                    <SelectValue placeholder="Round" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="die-cut">Die Cut</SelectItem>
+                                    <SelectItem value="circle">Round</SelectItem>
+                                    <SelectItem value="square">Square</SelectItem>
+                                    <SelectItem value="custom">Custom Shape</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Row 2: Size */}
+                        <div className="grid grid-cols-[100px_1fr] items-center gap-4">
+                            <Label className="text-xs font-medium text-slate-500">Size</Label>
+                            <Popover open={openSizeCombo} onOpenChange={setOpenSizeCombo}>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        role="combobox"
+                                        aria-expanded={openSizeCombo}
+                                        className="w-full justify-between h-10 bg-white border-gray-200 rounded-md text-xs font-medium hover:bg-gray-50 text-left px-3 text-slate-700"
+                                    >
+                                        {size ? SIZES.find((s) => s.value === size)?.label || "Custom Size" : "Select Size..."}
+                                        <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0 opacity-50" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[200px] p-0 rounded-lg">
+                                    <Command>
+                                        <CommandInput placeholder="Search size..." className="h-8 text-xs" />
+                                        <CommandList>
+                                            <CommandEmpty>No size found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {SIZES.map((s) => (
+                                                    <CommandItem
+                                                        key={s.value}
+                                                        value={s.value}
+                                                        onSelect={(currentValue) => {
+                                                            setValue("size", s.value === currentValue ? "" : s.value);
+                                                            setOpenSizeCombo(false);
+                                                        }}
+                                                        className="text-xs"
+                                                    >
+                                                        <Check className={cn("mr-2 h-3 w-3", size === s.value ? "opacity-100" : "opacity-0")} />
+                                                        {s.label}
+                                                    </CommandItem>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
                         </div>
 
                         {size === "custom" && (
-                            <div className="grid grid-cols-2 gap-4 bg-blue-50/30 p-4 rounded-2xl border border-blue-100/50 animate-in slide-in-from-top-2">
-                                <div>
-                                    <Label className="text-xs text-blue-700 font-bold mb-1.5 block">Width (mm)</Label>
-                                    <Input type="number" {...register("customWidth", { valueAsNumber: true })} className="bg-white border-transparent shadow-sm rounded-lg h-10 focus:ring-2 focus:ring-blue-500/20" />
-                                </div>
-                                <div>
-                                    <Label className="text-xs text-blue-700 font-bold mb-1.5 block">Height (mm)</Label>
-                                    <Input type="number" {...register("customHeight", { valueAsNumber: true })} className="bg-white border-transparent shadow-sm rounded-lg h-10 focus:ring-2 focus:ring-blue-500/20" />
+                            <div className="grid grid-cols-[100px_1fr] items-start gap-4 animate-in fade-in slide-in-from-top-1">
+                                <span className="text-xs font-medium text-slate-500 pt-3">Dimensions</span>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div className="relative">
+                                        <Input type="number" placeholder="W" {...register("customWidth", { valueAsNumber: true })} className="h-9 text-xs pr-8" />
+                                        <span className="absolute right-2 top-2 text-[10px] text-gray-400">mm</span>
+                                    </div>
+                                    <div className="relative">
+                                        <Input type="number" placeholder="H" {...register("customHeight", { valueAsNumber: true })} className="h-9 text-xs pr-8" />
+                                        <span className="absolute right-2 top-2 text-[10px] text-gray-400">mm</span>
+                                    </div>
                                 </div>
                             </div>
                         )}
 
-                        {/* Quantity */}
-                        <div className="space-y-1.5">
-                            <div className="flex items-center justify-between mb-1 pl-1">
-                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider">Quantity</Label>
-                                <span className="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">Best Value: 500+</span>
-                            </div>
+                        {/* Row 3: Quantity */}
+                        <div className="grid grid-cols-[100px_1fr] items-center gap-4">
+                            <Label className="text-xs font-medium text-slate-500">Quantity</Label>
                             <Select value={String(quantity)} onValueChange={(v) => setValue("quantity", Number(v))}>
-                                <SelectTrigger className="h-12 bg-gray-50/50 hover:bg-gray-50 border-transparent hover:border-gray-200 focus:ring-2 focus:ring-blue-500/20 rounded-xl font-semibold text-sm shadow-sm transition-all"><SelectValue /></SelectTrigger>
-                                <SelectContent className="rounded-xl shadow-xl border-gray-100">
+                                <SelectTrigger className="h-10 bg-white border-gray-200 rounded-md text-xs font-medium"><SelectValue /></SelectTrigger>
+                                <SelectContent>
                                     {[25, 50, 100, 250, 500, 1000, 2500, 5000].map(q => (
-                                        <SelectItem key={q} value={String(q)} className="rounded-lg text-sm font-medium">{q} pcs</SelectItem>
+                                        <SelectItem key={q} value={String(q)} className="text-xs">{q}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
                         </div>
 
-                        {/* Material Grid (Combined) */}
-                        <div>
-                            <div className="flex items-center justify-between mb-3 px-1">
-                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider">Material Selection</Label>
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <div className="cursor-help"><HelpCircle className="w-3 h-3 text-gray-400" /></div>
-                                        </TooltipTrigger>
-                                        <TooltipContent><p>Select the best material for your use case.</p></TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
+                        {/* Row 4: Material Toggles */}
+                        <div className="grid grid-cols-[100px_1fr] items-center gap-4">
+                            <Label className="text-xs font-medium text-slate-500">Material</Label>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setMaterialCategory("standard")}
+                                    className={cn(
+                                        "h-9 px-4 rounded border text-xs font-bold transition-all",
+                                        materialCategory === "standard"
+                                            ? "border-slate-800 text-slate-900 bg-white"
+                                            : "border-gray-200 text-gray-500 bg-white hover:border-gray-300"
+                                    )}
+                                >
+                                    Basic
+                                </button>
+                                <button
+                                    onClick={() => setMaterialCategory("premium")}
+                                    className={cn(
+                                        "h-9 px-4 rounded border text-xs font-bold transition-all flex items-center gap-1.5",
+                                        materialCategory === "premium"
+                                            ? "border-slate-800 text-slate-900 bg-white"
+                                            : "border-gray-200 text-gray-500 bg-white hover:border-gray-300"
+                                    )}
+                                >
+                                    <span className="text-amber-500">★</span> Premium
+                                </button>
                             </div>
+                        </div>
 
-                            <div className="grid grid-cols-3 gap-3">
-                                {[...STANDARD_MATERIALS, ...PREMIUM_MATERIALS].map((mat) => (
+                        {/* Material Grid */}
+                        <div className="pt-2">
+                            <Label className="text-xs font-medium text-slate-500 block mb-3">Select Material</Label>
+                            <div className="grid grid-cols-4 gap-2">
+                                {(materialCategory === "standard" ? STANDARD_MATERIALS : PREMIUM_MATERIALS).map((mat) => (
                                     <div
                                         key={mat.id}
                                         className={cn(
-                                            "rounded-xl p-0 cursor-pointer transition-all relative overflow-hidden group flex flex-col items-center text-center",
-                                            paperType === mat.id
-                                                ? "ring-2 ring-blue-500 bg-blue-50/50 shadow-md transform scale-[1.02]"
-                                                : "bg-white border border-gray-100 hover:border-blue-200 hover:shadow-lg hover:-translate-y-0.5"
+                                            "cursor-pointer group relative flex flex-col",
+                                            paperType === mat.id ? "opacity-100" : "opacity-80 hover:opacity-100"
                                         )}
                                         onClick={() => setValue("paperType", mat.id)}
                                     >
-                                        <div className="h-24 w-full relative">
-                                            <img src={mat.img} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                                        <div className={cn(
+                                            "aspect-square rounded border relative overflow-hidden mb-1.5 transition-all",
+                                            paperType === mat.id
+                                                ? "border-green-600 ring-1 ring-green-600"
+                                                : "border-gray-200 group-hover:border-gray-300"
+                                        )}>
+                                            <img src={mat.img} className="w-full h-full object-cover" />
                                             {paperType === mat.id && (
-                                                <div className="absolute inset-0 bg-blue-500/10 flex items-center justify-center backdrop-blur-[1px]">
-                                                    <div className="bg-blue-500 text-white rounded-full p-1 shadow-sm animate-in zoom-in">
-                                                        <Check className="h-4 w-4" />
-                                                    </div>
+                                                <div className="absolute right-0 bottom-0 bg-green-600 text-white p-0.5 rounded-tl-sm shadow-sm">
+                                                    <Check className="h-2.5 w-2.5" />
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="w-full py-2.5 px-1 bg-white/50 backdrop-blur-sm border-t border-gray-100/50">
-                                            <p className={cn("text-[10px] font-bold leading-tight mb-0.5", paperType === mat.id ? "text-blue-700" : "text-slate-700")}>{mat.name}</p>
-                                            <p className="text-[9px] text-gray-400 font-medium">{mat.desc}</p>
-                                        </div>
+                                        <p className={cn("text-[10px] leading-tight text-center font-bold px-0.5", paperType === mat.id ? "text-green-700" : "text-slate-600")}>
+                                            {mat.name.split(' ').slice(0, 2).join(' ')}
+                                        </p>
+                                        <p className="text-[9px] text-gray-400 text-center leading-none mt-0.5">{matCategory === "standard" ? "Standard" : "Premium"}</p>
                                     </div>
                                 ))}
                             </div>
                         </div>
-                    </div>
 
-                    {/* Bottom Price Bar */}
-                    <div className="mt-6 pt-5 border-t border-gray-100 shrink-0">
-                        <div className="flex items-end justify-between mb-4">
-                            <div>
-                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Total Estimated</p>
-                                <div className="flex items-baseline gap-2">
-                                    <span className="text-3xl font-black text-slate-900 tracking-tight">{isCalculating ? "..." : formatPrice(finalPrice)}</span>
-                                    {quantity >= 500 && <span className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm shadow-blue-200">20% OFF</span>}
-                                </div>
-                                <p className="text-[10px] text-gray-500 font-medium mt-1">{formatPrice(unitPrice)} / piece</p>
+                        {/* Format Row */}
+                        <div className="grid grid-cols-[100px_1fr] items-center gap-4">
+                            <Label className="text-xs font-medium text-slate-500">Select Format</Label>
+                            <Input value="Supplied in Sheets" disabled className="h-10 bg-gray-50 border-gray-200 text-xs font-medium text-gray-500" />
+                        </div>
+
+                        {/* Timeline */}
+                        <div className="grid grid-cols-[100px_1fr] items-center gap-4">
+                            <Label className="text-xs font-medium text-slate-500">Printing Time <Info className="inline w-3 h-3 text-gray-300 ml-1" /></Label>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setValue("printingTime", "standard")}
+                                    className={cn(
+                                        "h-10 flex-1 rounded border text-xs font-bold transition-all px-2",
+                                        printingTime === "standard"
+                                            ? "border-slate-800 text-slate-900 bg-gray-50"
+                                            : "border-gray-200 text-gray-500 bg-white hover:border-gray-300"
+                                    )}
+                                >
+                                    3 Days
+                                </button>
+                                <button
+                                    onClick={() => setValue("printingTime", "express")}
+                                    className={cn(
+                                        "h-10 flex-1 rounded border text-xs font-bold transition-all px-2 flex items-center justify-center gap-1",
+                                        printingTime === "express"
+                                            ? "border-slate-800 text-slate-900 bg-gray-50"
+                                            : "border-gray-200 text-gray-500 bg-white hover:border-gray-300"
+                                    )}
+                                >
+                                    <span className="text-red-500">🚀</span> Express 1 Day
+                                </button>
                             </div>
                         </div>
 
-                        <Button
-                            onClick={nextStep}
-                            className="w-full bg-slate-900 hover:bg-slate-800 text-white h-14 rounded-2xl text-base font-bold shadow-xl shadow-slate-200 hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-                        >
-                            <span>Upload Your Designs</span> <ArrowRight className="h-4 w-4 opacity-70" />
-                        </Button>
-                        <p className="text-center text-[10px] text-gray-400 mt-3 font-medium">Free shipping on orders over ₹1000</p>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="mt-auto pt-4 border-t border-dashed border-gray-200 p-6 bg-gray-50/50">
+                        <div className="flex items-center justify-between mb-0">
+                            <div className="flex flex-col">
+                                <span className="text-xs font-bold text-green-700">Total (GST Incl.):</span>
+                                <span className="text-2xl font-bold text-slate-800 tracking-tight">{formatPrice(finalPrice)}</span>
+                                <span className="text-[10px] text-gray-400">Unit Price: {formatPrice(unitPrice)}</span>
+                            </div>
+                            <Button
+                                onClick={nextStep}
+                                className="bg-[#004D40] hover:bg-[#00352C] text-white h-11 px-6 rounded-md text-sm font-bold shadow-sm transition-all"
+                            >
+                                Get Started
+                            </Button>
+                        </div>
                     </div>
                 </div>
             )}
