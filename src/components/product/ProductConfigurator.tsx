@@ -374,52 +374,55 @@ export default function ProductConfigurator({
     };
 
     return (
-        <div className="bg-white rounded-xl border border-gray-100 shadow-lg shadow-slate-200/50 overflow-hidden flex flex-col h-full max-h-full">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] border border-white/20 shadow-xl shadow-slate-200/40 overflow-hidden flex flex-col h-full max-h-full transition-all duration-300">
 
             {/* ------------------------------------
-               STEP 1: CONFIG VIEW (Compact Grid Layout)
+               STEP 1: CONFIG VIEW (Modern & Clean)
                ------------------------------------ */}
             {step === 1 && (
-                <div className="p-5 animate-in fade-in slide-in-from-left-4 flex flex-col h-full">
-                    <div className="mb-4 flex items-center justify-between shrink-0">
-                        <h2 className="text-lg font-bold text-slate-900">Configure Order</h2>
+                <div className="p-6 md:p-8 animate-in fade-in slide-in-from-right-4 flex flex-col h-full">
+                    <div className="mb-6 flex items-center justify-between shrink-0">
+                        <div>
+                            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Configure Your Order</h2>
+                            <p className="text-xs text-gray-500 font-medium mt-1">Customize your perfect stickers</p>
+                        </div>
                     </div>
 
-                    <div className="space-y-4 overflow-y-auto pr-1 flex-1 custom-scrollbar">
+                    <div className="space-y-6 overflow-y-auto pr-2 flex-1 custom-scrollbar -mr-2 pl-1 pb-4">
 
                         {/* Shape & Size Row */}
                         <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-2 block">Shape</Label>
+                            <div className="space-y-1.5">
+                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider pl-1">Shape</Label>
                                 <Select defaultValue="custom">
-                                    <SelectTrigger className="h-12 bg-gray-50 border-gray-200 font-medium">
+                                    <SelectTrigger className="h-12 bg-gray-50/50 hover:bg-gray-50 border-transparent hover:border-gray-200 focus:ring-2 focus:ring-blue-500/20 rounded-xl font-semibold text-sm transition-all shadow-sm">
                                         <SelectValue placeholder="Shape" />
                                     </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="die-cut">Die Cut</SelectItem>
-                                        <SelectItem value="circle">Circle</SelectItem>
-                                        <SelectItem value="square">Square</SelectItem>
-                                        <SelectItem value="custom">Custom Shape</SelectItem>
+                                    <SelectContent className="rounded-xl border-gray-100 shadow-xl">
+                                        <SelectItem value="die-cut" className="rounded-lg font-medium">Die Cut</SelectItem>
+                                        <SelectItem value="circle" className="rounded-lg font-medium">Circle</SelectItem>
+                                        <SelectItem value="square" className="rounded-lg font-medium">Square</SelectItem>
+                                        <SelectItem value="custom" className="rounded-lg font-medium">Custom Shape</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
-                            <div>
-                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider mb-2 block">Size</Label>
+                            <div className="space-y-1.5">
+                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider pl-1">Size</Label>
                                 <Popover open={openSizeCombo} onOpenChange={setOpenSizeCombo}>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant="outline"
                                             role="combobox"
                                             aria-expanded={openSizeCombo}
-                                            className="w-full justify-between h-12 bg-gray-50 border-gray-200 font-medium"
+                                            className="w-full justify-between h-12 bg-gray-50/50 hover:bg-gray-50 border-transparent hover:border-gray-200 focus:ring-2 focus:ring-blue-500/20 rounded-xl font-semibold text-sm shadow-sm"
                                         >
                                             {size ? SIZES.find((s) => s.value === size)?.label || "Custom Size" : "Select Size..."}
                                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                         </Button>
                                     </PopoverTrigger>
-                                    <PopoverContent className="w-[280px] p-0">
+                                    <PopoverContent className="w-[280px] p-0 rounded-xl shadow-xl border-gray-100">
                                         <Command>
-                                            <CommandInput placeholder="Search size..." />
+                                            <CommandInput placeholder="Search size..." className="h-11" />
                                             <CommandList>
                                                 <CommandEmpty>No size found.</CommandEmpty>
                                                 <CommandGroup>
@@ -431,8 +434,9 @@ export default function ProductConfigurator({
                                                                 setValue("size", s.value === currentValue ? "" : s.value);
                                                                 setOpenSizeCombo(false);
                                                             }}
+                                                            className="rounded-lg m-1"
                                                         >
-                                                            <Check className={cn("mr-2 h-4 w-4", size === s.value ? "opacity-100" : "opacity-0")} />
+                                                            <Check className={cn("mr-2 h-4 w-4 text-blue-500", size === s.value ? "opacity-100" : "opacity-0")} />
                                                             {s.label}
                                                         </CommandItem>
                                                     ))}
@@ -445,29 +449,29 @@ export default function ProductConfigurator({
                         </div>
 
                         {size === "custom" && (
-                            <div className="grid grid-cols-2 gap-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100 animate-in slide-in-from-top-2">
+                            <div className="grid grid-cols-2 gap-4 bg-blue-50/30 p-4 rounded-2xl border border-blue-100/50 animate-in slide-in-from-top-2">
                                 <div>
-                                    <Label className="text-xs text-blue-800 font-bold mb-1 block">Width (mm)</Label>
-                                    <Input type="number" {...register("customWidth", { valueAsNumber: true })} className="bg-white" />
+                                    <Label className="text-xs text-blue-700 font-bold mb-1.5 block">Width (mm)</Label>
+                                    <Input type="number" {...register("customWidth", { valueAsNumber: true })} className="bg-white border-transparent shadow-sm rounded-lg h-10 focus:ring-2 focus:ring-blue-500/20" />
                                 </div>
                                 <div>
-                                    <Label className="text-xs text-blue-800 font-bold mb-1 block">Height (mm)</Label>
-                                    <Input type="number" {...register("customHeight", { valueAsNumber: true })} className="bg-white" />
+                                    <Label className="text-xs text-blue-700 font-bold mb-1.5 block">Height (mm)</Label>
+                                    <Input type="number" {...register("customHeight", { valueAsNumber: true })} className="bg-white border-transparent shadow-sm rounded-lg h-10 focus:ring-2 focus:ring-blue-500/20" />
                                 </div>
                             </div>
                         )}
 
                         {/* Quantity */}
-                        <div>
-                            <div className="flex items-center justify-between mb-2">
+                        <div className="space-y-1.5">
+                            <div className="flex items-center justify-between mb-1 pl-1">
                                 <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider">Quantity</Label>
-                                <span className="text-[10px] bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">Save 15% more at 500pcs</span>
+                                <span className="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">Best Value: 500+</span>
                             </div>
                             <Select value={String(quantity)} onValueChange={(v) => setValue("quantity", Number(v))}>
-                                <SelectTrigger className="h-12 bg-gray-50 border-gray-200 font-medium"><SelectValue /></SelectTrigger>
-                                <SelectContent>
+                                <SelectTrigger className="h-12 bg-gray-50/50 hover:bg-gray-50 border-transparent hover:border-gray-200 focus:ring-2 focus:ring-blue-500/20 rounded-xl font-semibold text-sm shadow-sm transition-all"><SelectValue /></SelectTrigger>
+                                <SelectContent className="rounded-xl shadow-xl border-gray-100">
                                     {[25, 50, 100, 250, 500, 1000, 2500, 5000].map(q => (
-                                        <SelectItem key={q} value={String(q)}>{q} pcs</SelectItem>
+                                        <SelectItem key={q} value={String(q)} className="rounded-lg text-sm font-medium">{q} pcs</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -475,9 +479,16 @@ export default function ProductConfigurator({
 
                         {/* Material Grid (Combined) */}
                         <div>
-                            <div className="flex items-center justify-between mb-3">
-                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider">Select Material</Label>
-                                <Button variant="link" className="h-auto p-0 text-xs text-blue-600 font-bold">Need help choosing?</Button>
+                            <div className="flex items-center justify-between mb-3 px-1">
+                                <Label className="text-[11px] uppercase font-bold text-gray-400 tracking-wider">Material Selection</Label>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <div className="cursor-help"><HelpCircle className="w-3 h-3 text-gray-400" /></div>
+                                        </TooltipTrigger>
+                                        <TooltipContent><p>Select the best material for your use case.</p></TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             </div>
 
                             <div className="grid grid-cols-3 gap-3">
@@ -485,26 +496,27 @@ export default function ProductConfigurator({
                                     <div
                                         key={mat.id}
                                         className={cn(
-                                            "border rounded-xl p-0 cursor-pointer hover:border-blue-500 hover:shadow-md transition-all relative overflow-hidden group flex flex-col items-center text-center",
-                                            paperType === mat.id ? "border-blue-500 ring-2 ring-blue-500 ring-offset-2 bg-blue-50/30" : "border-gray-200 bg-white"
+                                            "rounded-xl p-0 cursor-pointer transition-all relative overflow-hidden group flex flex-col items-center text-center",
+                                            paperType === mat.id
+                                                ? "ring-2 ring-blue-500 bg-blue-50/50 shadow-md transform scale-[1.02]"
+                                                : "bg-white border border-gray-100 hover:border-blue-200 hover:shadow-lg hover:-translate-y-0.5"
                                         )}
                                         onClick={() => setValue("paperType", mat.id)}
                                     >
-                                        <div className="h-20 w-full p-2 flex items-center justify-center">
-                                            {/* Simulate the 'Product Look' in the reference */}
-                                            <div className="w-12 h-16 bg-white shadow-sm border border-gray-100 rounded-sm relative overflow-hidden">
-                                                <img src={mat.img} className="w-full h-full object-cover" />
-                                            </div>
+                                        <div className="h-24 w-full relative">
+                                            <img src={mat.img} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                                            {paperType === mat.id && (
+                                                <div className="absolute inset-0 bg-blue-500/10 flex items-center justify-center backdrop-blur-[1px]">
+                                                    <div className="bg-blue-500 text-white rounded-full p-1 shadow-sm animate-in zoom-in">
+                                                        <Check className="h-4 w-4" />
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="w-full py-2 px-1 border-t border-gray-100 bg-gray-50/50 group-hover:bg-white transition-colors">
-                                            <p className={cn("text-[10px] font-bold leading-tight", paperType === mat.id ? "text-blue-700" : "text-gray-700")}>{mat.name}</p>
+                                        <div className="w-full py-2.5 px-1 bg-white/50 backdrop-blur-sm border-t border-gray-100/50">
+                                            <p className={cn("text-[10px] font-bold leading-tight mb-0.5", paperType === mat.id ? "text-blue-700" : "text-slate-700")}>{mat.name}</p>
+                                            <p className="text-[9px] text-gray-400 font-medium">{mat.desc}</p>
                                         </div>
-
-                                        {paperType === mat.id && (
-                                            <div className="absolute top-1 right-1 bg-blue-500 text-white rounded-full p-0.5 shadow-sm">
-                                                <Check className="h-3 w-3" />
-                                            </div>
-                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -512,20 +524,25 @@ export default function ProductConfigurator({
                     </div>
 
                     {/* Bottom Price Bar */}
-                    <div className="mt-4 pt-4 border-t border-gray-100 shrink-0">
-                        <div className="flex items-end justify-between mb-3">
+                    <div className="mt-6 pt-5 border-t border-gray-100 shrink-0">
+                        <div className="flex items-end justify-between mb-4">
                             <div>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Total Estimated</p>
                                 <div className="flex items-baseline gap-2">
-                                    <span className="text-2xl font-extrabold text-slate-900 tracking-tight">{isCalculating ? "..." : formatPrice(finalPrice)}</span>
-                                    <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-1.5 py-0.5 rounded">Save 20%</span>
+                                    <span className="text-3xl font-black text-slate-900 tracking-tight">{isCalculating ? "..." : formatPrice(finalPrice)}</span>
+                                    {quantity >= 500 && <span className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm shadow-blue-200">20% OFF</span>}
                                 </div>
-                                <p className="text-[10px] text-gray-400 mt-1">GST Incl. • <span className="font-medium text-gray-600">{formatPrice(unitPrice)} / each</span></p>
+                                <p className="text-[10px] text-gray-500 font-medium mt-1">{formatPrice(unitPrice)} / piece</p>
                             </div>
                         </div>
 
-                        <Button onClick={nextStep} className="w-full bg-blue-500 hover:bg-blue-600 text-white h-12 rounded-lg text-base font-bold shadow-blue-200 shadow-md transition-all flex items-center justify-center gap-2">
-                            <Upload className="h-4 w-4" /> Upload Artwork
+                        <Button
+                            onClick={nextStep}
+                            className="w-full bg-slate-900 hover:bg-slate-800 text-white h-14 rounded-2xl text-base font-bold shadow-xl shadow-slate-200 hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                        >
+                            <span>Upload Your Designs</span> <ArrowRight className="h-4 w-4 opacity-70" />
                         </Button>
+                        <p className="text-center text-[10px] text-gray-400 mt-3 font-medium">Free shipping on orders over ₹1000</p>
                     </div>
                 </div>
             )}
